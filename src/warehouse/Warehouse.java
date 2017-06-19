@@ -49,7 +49,8 @@ public class Warehouse {
 //        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(1), productService.findProduct(2), 5);
 //        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(3), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(1), 2);
 //        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(4), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(2), 10);
-        
-        advancedService.fourth();
+//        orderService.makeOrder(new Date(117, 6, 18), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(4), 10);
+
+        advancedService.fifth(1);
     }  
 }

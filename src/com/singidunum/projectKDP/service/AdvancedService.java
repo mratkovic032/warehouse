@@ -45,7 +45,7 @@ public class AdvancedService {
         StringBuilder sb = new StringBuilder();
         try {
             conn = ResourcesManager.getConnection();
-            ps = conn.prepareStatement("SELECT product_name, supplier_name, id_supplier FROM product INNER JOIN supplier ON product.fk_supplier=supplier.id_supplier WHERE id_supplier=?");
+            ps = conn.prepareStatement("SELECT product_name, supplier_name, id_supplier FROM product INNER JOIN supplier ON product.fk_supplier=supplier.id_supplier WHERE id_supplier=?;");
             ps.setInt(1, supplierId);
             rs = ps.executeQuery();
             while(rs.next()) {
@@ -67,7 +67,7 @@ public class AdvancedService {
         StringBuilder sb = new StringBuilder();
         try {
             conn = ResourcesManager.getConnection();
-            ps = conn.prepareStatement("SELECT product_name, shipper_name, id_shipper FROM product INNER JOIN (order_details INNER JOIN (orders INNER JOIN shipper ON orders.fk_shipper=shipper.id_shipper) ON order_details.fk_order=orders.id_order) ON product.id_product=order_details.fk_product WHERE id_shipper=?");
+            ps = conn.prepareStatement("SELECT product_name, shipper_name, id_shipper FROM product INNER JOIN (order_details INNER JOIN (orders INNER JOIN shipper ON orders.fk_shipper=shipper.id_shipper) ON order_details.fk_order=orders.id_order) ON product.id_product=order_details.fk_product WHERE id_shipper=?;");
             ps.setInt(1, shipperId);
             rs = ps.executeQuery();
             while(rs.next()) {                
@@ -87,16 +87,45 @@ public class AdvancedService {
         PreparedStatement ps = null;
         ResultSet rs = null;
         StringBuilder sb = new StringBuilder();
+        int ukupno = 0;
         try {
             conn = ResourcesManager.getConnection();
-            ps = conn.prepareStatement("SELECT SUM(price_per_unit) AS 'Ukupna cena svih porudzbina' FROM order_details INNER JOIN product ON order_details.fk_product=product.id_product");
+            ps = conn.prepareStatement("SELECT quantity, price_per_unit FROM order_details INNER JOIN product ON order_details.fk_product=product.id_product;");
             rs = ps.executeQuery();
-            if(rs.next()) {                
-                sb.append("Ukupna cena svih porudzbina: ").append(rs.getInt("Ukupna cena svih porudzbina")).append(" dinara");
+            while(rs.next()) {           
+                ukupno += rs.getInt("quantity") * rs.getInt("price_per_unit");                
             }
+            sb.append("Ukupna cena svih porudzbina: ").append(ukupno).append(" dinara.");
             System.out.println(sb);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to find products.");
+            throw new WarehouseException("Failed to find SUM.");
+        } finally {
+            ResourcesManager.closeResources(rs, ps);
+            ResourcesManager.closeConnection(conn);
+        }
+    }
+    
+    public void fifth(int customerId) throws WarehouseException, SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        StringBuilder sb = new StringBuilder();
+        String customer_name = null;
+        int ukupno = 0;
+        try {
+            conn = ResourcesManager.getConnection();
+            ps = conn.prepareStatement("SELECT customer_name, id_customer, quantity, price_per_unit FROM customer INNER JOIN (orders INNER JOIN ( order_details INNER JOIN product ON order_details.fk_product=product.id_product) ON orders.id_order=order_details.fk_order) ON customer.id_customer=orders.fk_customer WHERE id_customer=?;");
+            ps.setInt(1, customerId);
+            rs = ps.executeQuery();            
+            while(rs.next()) {     
+                customer_name = rs.getString("customer_name");
+                ukupno += rs.getInt("quantity") * rs.getInt("price_per_unit");                
+            }            
+            sb.append("Customer: ").append(customer_name).append(" ima narudzbine u vrednosti od ").append(ukupno).append(" dinara.");
+            System.out.println(sb);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new WarehouseException("Failed to find SUM for specified Customer.");
         } finally {
             ResourcesManager.closeResources(rs, ps);
             ResourcesManager.closeConnection(conn);
