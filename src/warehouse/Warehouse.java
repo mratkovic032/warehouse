@@ -33,7 +33,7 @@ public class Warehouse {
     public static void addTestProducts() throws SQLException, WarehouseException {
         productService.addNewProduct(new Product("Banana", new Supplier("Fruit Company", "Janko", "Ustanicka 112", "Belgrade", 11000, "Serbia", "0113653453"), "Fruit", 1200));
         productService.addNewProduct(new Product("Lego", new Supplier("Toy Company", "Mirko", "Bulevar Oslobodjenja 221", "Belgrade", 11000, "Serbia", "0113653499"), "Toy", 2500));
-        productService.addNewProduct(new Product("Plisana lutka", new Supplier("Toy Company", "Mirko", "Bulevar Oslobodjenja 221", "Belgrade", 11000, "Serbia", "0113653499"), "Toy", 2500));
+        productService.addNewProduct(new Product("Plisana lutka", new Supplier("Toy Company", "Mirko", "Bulevar Oslobodjenja 221", "Belgrade", 11000, "Serbia", "0113653499"), "Toy", 1500));
     }
     
     
@@ -44,13 +44,13 @@ public class Warehouse {
 //        addTestCustomers();        
 //        addTestShippers();
 //        addTestProducts(); 
-
-//        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(2), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(1), 5);        
-//        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(1), productService.findProduct(2), 5);
-//        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(3), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(1), 2);
-//        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(4), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(2), 10);
-//        orderService.makeOrder(new Date(117, 6, 18), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(4), 10);
-
-        advancedService.fifth(1);
+//        orderService.makeOrder(new Date(117, 6, 20), customerService.findCustomer(2), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(1), 5);        
+//        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 4);
+//        orderService.makeOrder(new Date(117, 6, 19), customerService.findCustomer(3), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(3), 2);
+//        orderService.makeOrder(new Date(117, 6, 18), customerService.findCustomer(4), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(3), 10);
+//        orderService.makeOrder(new Date(117, 6, 10), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 2);
+//        orderService.makeOrder(new Date(117, 6, 5), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 7);
+                
+        advancedService.ninth();
     }  
 }
