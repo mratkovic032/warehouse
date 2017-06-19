@@ -37,9 +37,11 @@ public class Warehouse {
 
     public static void main(String[] args) throws SQLException, WarehouseException {
         
-        addTestEmployees();
-        addTestCustomers();        
-        addTestShippers();
-        addTestProducts();        
+//        addTestEmployees();
+//        addTestCustomers();        
+//        addTestShippers();
+//        addTestProducts(); 
+
+        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(2), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(1), 5);
     }  
 }

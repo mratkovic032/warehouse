@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `warehouse`.`product` (
 	CONSTRAINT `fk_product_supplier` FOREIGN KEY (`fk_supplier`) REFERENCES `warehouse`.`supplier` (`id_supplier`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
-CREATE TABLE IF NOT EXISTS `warehouse`.`order` (
+CREATE TABLE IF NOT EXISTS `warehouse`.`orders` (
 	`id_order` INT NOT NULL AUTO_INCREMENT,
 	`order_date` DATE NULL,
 	`fk_customer` INT NULL,
@@ -67,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `warehouse`.`order_details` (
 	`fk_product` INT NULL,
 	`quantity` INT NULL,
 	PRIMARY KEY (`id_order_details`),
-	CONSTRAINT `fk_order_details_order` FOREIGN KEY (`fk_order`) REFERENCES `warehouse`.`order` (`id_order`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT `fk_order_details_order` FOREIGN KEY (`fk_order`) REFERENCES `warehouse`.`orders` (`id_order`) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT `fk_order_details_product` FOREIGN KEY (`fk_product`) REFERENCES `warehouse`.`product` (`id_product`) ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 

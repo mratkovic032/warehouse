@@ -24,7 +24,7 @@ public class OrderDetailsDao {
     public void insert(Connection conn, OrderDetails orderDetails) throws SQLException, WarehouseException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("INSERT INTO order_details(fk_order, fk_product, quantity) VALUES(?, ?, ?, ?);");
+            ps = conn.prepareStatement("INSERT INTO order_details(fk_order, fk_product, quantity) VALUES(?, ?, ?);");
             
             Integer fk_order = null;
             if(orderDetails.getFk_order() != null) {

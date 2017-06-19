@@ -29,11 +29,7 @@ public class OrderService {
             conn = ResourcesManager.getConnection();
             conn.setAutoCommit(false);
             
-            Order order = new Order(date, c, e, s);
-            System.out.println(order);
-            OrderDao.getInstance().insert(conn, order);
-
-            OrderDetails orderDetails = new OrderDetails(order, p, quantity);
+            OrderDetails orderDetails = new OrderDetails(new Order(date, c, e, s), p, quantity);
             OrderDetailsDao.getInstance().insert(conn, orderDetails);
             
             conn.commit();

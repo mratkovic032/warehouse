@@ -28,7 +28,7 @@ public class OrderDao {
         ResultSet rs = null;
         int id = -1;
         try {            
-            ps = conn.prepareStatement("INSERT INTO order(order_date, fk_customer, fk_employee, fk_shipper) VALUES(?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+            ps = conn.prepareStatement("INSERT INTO orders(order_date, fk_customer, fk_employee, fk_shipper) VALUES(?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             ps.setDate(1, order.getOrder_date());
             
             Customer customer = CustomerDao.getInstance().find(conn, order.getFk_customer().getId_customer());
@@ -47,9 +47,9 @@ public class OrderDao {
             if(shipper == null) {
                 throw new WarehouseException("Shipper " + order.getFk_shipper() + " doesn't exist in the database.");
             }
-            ps.setInt(4, shipper.getId_shipper());    
-            
+            ps.setInt(4, shipper.getId_shipper());                
             ps.executeUpdate();
+            
             rs = ps.getGeneratedKeys();
             rs.next();
             id = rs.getInt(1);
@@ -62,7 +62,7 @@ public class OrderDao {
     public void update(Connection conn, Order order) throws SQLException {
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE order SET order_date=? WHERE id_order=?;");
+            ps = conn.prepareStatement("UPDATE orders SET order_date=? WHERE id_order=?;");
             ps.setDate(1, order.getOrder_date());
             ps.setInt(2, order.getId_order());
             ps.executeUpdate();
@@ -88,7 +88,7 @@ public class OrderDao {
         try {
             OrderDetailsDao.getInstance().delete(conn, order);
             
-            ps = conn.prepareStatement("DELETE FROM order WHERE id_order=?;");
+            ps = conn.prepareStatement("DELETE FROM orders WHERE id_order=?;");
             ps.setInt(1, order.getId_order());
             ps.executeUpdate();
         } finally {
@@ -101,7 +101,7 @@ public class OrderDao {
         ResultSet rs = null;
         Order order = null;
         try {
-            ps = conn.prepareStatement("SELECT * FROM order WHERE id_order=?;");
+            ps = conn.prepareStatement("SELECT * FROM orders WHERE id_order=?;");
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
             if(rs.next()) {
@@ -123,7 +123,7 @@ public class OrderDao {
         ResultSet rs = null;
         List<Order> orderList = new ArrayList<Order>();
         try {
-            ps = conn.prepareStatement("SELECT * FROM order;");
+            ps = conn.prepareStatement("SELECT * FROM orders;");
             rs = ps.executeQuery();
             if(!rs.next()) {
                 return orderList;
