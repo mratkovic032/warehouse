@@ -23,6 +23,7 @@ public class Warehouse {
         customerService.addNewCustomer(new Customer("Nikola Dilparic", "Vukasin", "Bosanska 10", "Cacak", 32000, "Serbia"));
         customerService.addNewCustomer(new Customer("Zoran Vukomanovic", "Nemanja", "Trbusani", "Cacak", 32000, "Serbia"));
         customerService.addNewCustomer(new Customer("Aleksandar Aleksandric", "Milan", "Ustanicka 126", "Beograd", 11000, "Serbia"));
+        customerService.addNewCustomer(new Customer("Nikola Stefanovic", "Filip", "Vojvode Stepe 320", "Beograd", 11000, "Serbia"));
     }
     
     public static void addTestShippers() throws SQLException, WarehouseException {
@@ -50,7 +51,9 @@ public class Warehouse {
 //        orderService.makeOrder(new Date(117, 6, 18), customerService.findCustomer(4), customerService.findEmployee(1), customerService.findShipper(2), productService.findProduct(3), 10);
 //        orderService.makeOrder(new Date(117, 6, 10), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 2);
 //        orderService.makeOrder(new Date(117, 6, 5), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 7);
-                
-        advancedService.ninth();
+//        orderService.makeOrder(new Date(117, 6, 14), customerService.findCustomer(5), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(3), 8);
+        
+        
+        //advancedService.tenth();
     }  
 }
