@@ -24,8 +24,10 @@ public class ProductDao {
         PreparedStatement ps = null;
         try {          
             Integer fk_supplier = null;
-            if(product.getFk_supplier() != null & SupplierDao.getInstance().find(conn, product.getFk_supplier().getId_supplier()) == null) {  
+            if(product.getFk_supplier() != null & SupplierDao.getInstance().find(conn, product.getFk_supplier().getSupplier_name()) == null) {  
                 fk_supplier = SupplierDao.getInstance().insert(conn, product.getFk_supplier());
+            } else {
+                fk_supplier = SupplierDao.getInstance().find(conn, product.getFk_supplier().getSupplier_name()).getId_supplier();
             }
             
             ps = conn.prepareStatement("INSERT INTO product(product_name, fk_supplier, product_category, price_per_unit) VALUES(?, ?, ?, ?);");

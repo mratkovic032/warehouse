@@ -90,6 +90,25 @@ public class SupplierDao {
         return supplier;
     }
     
+    public Supplier find(Connection conn, String supplier_name) throws SQLException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Supplier supplier = null;
+        try {
+            ps = conn.prepareStatement("SELECT * FROM supplier WHERE supplier_name=?;");
+            ps.setString(1, supplier_name);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                supplier = new Supplier(rs.getInt("id_supplier"), supplier_name, rs.getString("contact_person"), rs.getString("address"), rs.getString("city"), rs.getInt("post_code"), rs.getString("country"), rs.getString("phone"));                
+            } else {
+                return supplier;
+            }
+        } finally {
+            ResourcesManager.closeResources(rs, ps);
+        }
+        return supplier;
+    }
+    
     public List<Supplier> findAll(Connection conn) throws SQLException {
         PreparedStatement ps = null;
         ResultSet rs = null;
