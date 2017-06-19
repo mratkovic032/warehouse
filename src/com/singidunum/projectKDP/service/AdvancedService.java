@@ -176,7 +176,7 @@ public class AdvancedService {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();        
         try {
             conn = ResourcesManager.getConnection();
             ps = conn.prepareStatement("SELECT last_name, first_name, MAX(quantity*price_per_unit) AS 'ukupno' FROM employee INNER JOIN (orders INNER JOIN (order_details INNER JOIN product ON order_details.fk_product=product.id_product) ON orders.id_order=order_details.fk_order) ON employee.id_employee=orders.fk_employee;");
@@ -210,12 +210,56 @@ public class AdvancedService {
             System.out.println(sb);
         } catch (SQLException ex) {
             System.out.println(ex);
-            throw new WarehouseException("Failed to find 2 product.");
+            throw new WarehouseException("Failed to find 2 Product.");
         } finally {
             ResourcesManager.closeResources(rs, ps);
             ResourcesManager.closeConnection(conn);
         }
     }
     
-  
+    public void tenth() throws WarehouseException, SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Cetiri Customer-a koja su potrosila najvecu kolicinu novca su:\n");
+        try {
+            conn = ResourcesManager.getConnection();
+            ps = conn.prepareStatement("SELECT customer_name, SUM(quantity*price_per_unit) AS 'money_spent' FROM customer INNER JOIN (orders INNER JOIN (order_details INNER JOIN product ON order_details.fk_product=product.id_product) ON orders.id_order=order_details.fk_order) ON customer.id_customer=orders.fk_customer GROUP BY customer_name ORDER BY money_spent DESC LIMIT 4;");
+            rs = ps.executeQuery();            
+            while(rs.next()) {                                 
+                sb.append(rs.getString("customer_name")).append("\t").append(rs.getInt("money_spent")).append("\n").append(" dinara.");
+            }                        
+            System.out.println(sb);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new WarehouseException("Failed to find 4 Customers.");
+        } finally {
+            ResourcesManager.closeResources(rs, ps);
+            ResourcesManager.closeConnection(conn);
+        }
+    }
+    
+    public void eleventh() throws WarehouseException, SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        StringBuilder sb = new StringBuilder();
+        sb.append("Supplier cija je se roba prodala u najvecim kolicinama je:\n");
+        try {
+            conn = ResourcesManager.getConnection();
+            ps = conn.prepareStatement("SELECT supplier_name, SUM(quantity*price_per_unit) AS 'money_spent' FROM supplier INNER JOIN (product INNER JOIN order_details ON product.id_product=order_details.fk_product) ON supplier.id_supplier=product.fk_supplier GROUP BY supplier_name ORDER BY money_spent DESC LIMIT 1;");
+            rs = ps.executeQuery();            
+            while(rs.next()) {                                 
+                sb.append(rs.getString("supplier_name")).append("\t").append(rs.getInt("money_spent")).append(" dinara.").append("\n");
+            }                        
+            System.out.println(sb);
+        } catch (SQLException ex) {
+            System.out.println(ex);
+            throw new WarehouseException("Failed to find Supplier.");
+        } finally {
+            ResourcesManager.closeResources(rs, ps);
+            ResourcesManager.closeConnection(conn);
+        }
+    }
 }
