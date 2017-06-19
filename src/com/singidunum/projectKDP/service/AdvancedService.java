@@ -81,4 +81,25 @@ public class AdvancedService {
             ResourcesManager.closeConnection(conn);
         }
     }    
+    
+    public void fourth() throws WarehouseException, SQLException {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            conn = ResourcesManager.getConnection();
+            ps = conn.prepareStatement("SELECT SUM(price_per_unit) AS 'Ukupna cena svih porudzbina' FROM order_details INNER JOIN product ON order_details.fk_product=product.id_product");
+            rs = ps.executeQuery();
+            if(rs.next()) {                
+                sb.append("Ukupna cena svih porudzbina: ").append(rs.getInt("Ukupna cena svih porudzbina")).append(" dinara");
+            }
+            System.out.println(sb);
+        } catch (SQLException ex) {
+            throw new WarehouseException("Failed to find products.");
+        } finally {
+            ResourcesManager.closeResources(rs, ps);
+            ResourcesManager.closeConnection(conn);
+        }
+    }
 }
