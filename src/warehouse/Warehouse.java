@@ -19,8 +19,13 @@ public class Warehouse {
     }
     
     public static void addTestCustomers() throws SQLException, WarehouseException {
-        customerService.addNewCustomer(new Customer("Milos Ratkovic", "Nikola", "Vojvode Stepe 321", "Belgrade", 11000, "Serbia"));
-        customerService.addNewCustomer(new Customer("Nikola Dilparic", "Luka", "Bosanska 10", "Cacak", 32000, "Serbia"));
+        customerService.addNewCustomer(new Customer("Milos Ratkovic", "Luka", "Vojvode Stepe 321", "Belgrade", 11000, "Serbia"));
+        customerService.addNewCustomer(new Customer("Nikola Dilparic", "Vukasin", "Bosanska 10", "Cacak", 32000, "Serbia"));
+    }
+    
+    public static void addTestShippers() throws SQLException, WarehouseException {
+        customerService.addNewShipper(new Shipper("Transport Company 1", "0118568843"));
+        customerService.addNewShipper(new Shipper("Transport Company 2", "0325679904"));
     }
     
     public static void addTestProducts() throws SQLException, WarehouseException {
@@ -28,17 +33,13 @@ public class Warehouse {
         productService.addNewProduct(new Product("Lego", new Supplier("Toy Company", "Mirko", "Bulevar Oslobodjenja 221", "Belgrade", 11000, "Serbia", "0113653499"), "Toy", 2500));
     }
     
-    public static void addTestShippers() throws SQLException, WarehouseException {
-        productService.addNewShipper(new Shipper("Transport Company 1", "0118568843"));
-        productService.addNewShipper(new Shipper("Transport Company 2", "0325679904"));
-    }
+    
 
     public static void main(String[] args) throws SQLException, WarehouseException {
         
-//        addTestEmployees();
-//        addTestCustomers();        
-//        addTestShippers();
-//        addTestProducts();
-        orderService.makeOrder(new Date(116, 6, 21), customerService.findCustomer(1), customerService.findEmployee(1), productService.findShipper(1), productService.findProduct(1), 5);
+        addTestEmployees();
+        addTestCustomers();        
+        addTestShippers();
+        addTestProducts();        
     }  
 }

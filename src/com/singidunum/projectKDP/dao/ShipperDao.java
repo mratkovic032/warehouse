@@ -19,22 +19,16 @@ public class ShipperDao {
         return INSTANCE;
     }
     
-    public int insert(Connection conn, Shipper shipper) throws SQLException {
+    public void insert(Connection conn, Shipper shipper) throws SQLException {
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        int id = -1;
         try {
             ps = conn.prepareStatement("INSERT INTO shipper(shipper_name, phone) VALUES(?, ?);", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, shipper.getShipper_name());
             ps.setString(2, shipper.getPhone());
-            ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            rs.next();
-            id = rs.getInt(1);
+            ps.executeUpdate();;
         } finally {
             ResourcesManager.closeResources(null, ps);
         }       
-        return id;
     }
     
     public void update(Connection conn, Shipper shipper) throws SQLException {

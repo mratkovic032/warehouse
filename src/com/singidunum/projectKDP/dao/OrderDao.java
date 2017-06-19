@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,12 @@ public class OrderDao {
         return INSTANCE;
     }
     
-    public void insert(Connection conn, Order order) throws SQLException, WarehouseException {
+    public int insert(Connection conn, Order order) throws SQLException, WarehouseException {
         PreparedStatement ps = null;
+        ResultSet rs = null;
+        int id = -1;
         try {            
-            ps = conn.prepareStatement("INSERT INTO order(order_date, fk_customer, fk_employee, fk_shipper) VALUES(?, ?, ?, ?);");
+            ps = conn.prepareStatement("INSERT INTO order(order_date, fk_customer, fk_employee, fk_shipper) VALUES(?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             ps.setDate(1, order.getOrder_date());
             
             Customer customer = CustomerDao.getInstance().find(conn, order.getFk_customer().getId_customer());
@@ -47,9 +50,13 @@ public class OrderDao {
             ps.setInt(4, shipper.getId_shipper());    
             
             ps.executeUpdate();
+            rs = ps.getGeneratedKeys();
+            rs.next();
+            id = rs.getInt(1);
         } finally {
             ResourcesManager.closeResources(null, ps);
         }
+        return id;
     }
     
     public void update(Connection conn, Order order) throws SQLException {
@@ -98,9 +105,9 @@ public class OrderDao {
             ps.setInt(1, orderId);
             rs = ps.executeQuery();
             if(rs.next()) {
-                Customer customer = CustomerDao.getInstance().find(conn, rs.getInt("CustomerId"));
-                Employee employee = EmployeeDao.getInstance().find(conn, rs.getInt("EmployeeId"));
-                Shipper shipper = ShipperDao.getInstance().find(conn, rs.getInt("ShipperId"));
+                Customer customer = CustomerDao.getInstance().find(conn, rs.getInt("fk_customer"));
+                Employee employee = EmployeeDao.getInstance().find(conn, rs.getInt("fk_employee"));
+                Shipper shipper = ShipperDao.getInstance().find(conn, rs.getInt("fk_shipper"));
                 order = new Order(orderId, rs.getDate("order_date"), customer, employee, shipper);
             } else {
                 return order;
@@ -122,9 +129,9 @@ public class OrderDao {
                 return orderList;
             }
             while(rs.next()) {
-                Customer customer = CustomerDao.getInstance().find(conn, rs.getInt("id_customer"));
-                Employee employee = EmployeeDao.getInstance().find(conn, rs.getInt("id_employee"));
-                Shipper shipper = ShipperDao.getInstance().find(conn, rs.getInt("id_shipper"));
+                Customer customer = CustomerDao.getInstance().find(conn, rs.getInt("fk_customer"));
+                Employee employee = EmployeeDao.getInstance().find(conn, rs.getInt("fk_employee"));
+                Shipper shipper = ShipperDao.getInstance().find(conn, rs.getInt("fk_shipper"));
                 Order order = new Order(rs.getInt("id_order"), rs.getDate("order_date"), customer, employee, shipper);
                 orderList.add(order);
             }

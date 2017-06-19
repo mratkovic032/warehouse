@@ -24,7 +24,7 @@ public class ProductDao {
         PreparedStatement ps = null;
         try {          
             Integer fk_supplier = null;
-            if(product.getFk_supplier() != null) {                
+            if(product.getFk_supplier() != null & SupplierDao.getInstance().find(conn, product.getFk_supplier().getId_supplier()) == null) {  
                 fk_supplier = SupplierDao.getInstance().insert(conn, product.getFk_supplier());
             }
             
@@ -42,23 +42,28 @@ public class ProductDao {
     public void update(Connection conn, Product product) throws SQLException {
         PreparedStatement ps = null;
         try {            
-            ps = conn.prepareStatement("UPDATE product SET product_name=?, fk_supplier=?, product_category=?, price_per_unit=? WHERE id_product=?;");
+            ps = conn.prepareStatement("UPDATE product SET product_name=?, product_category=?, price_per_unit=? WHERE id_product=?;");
             ps.setString(1, product.getProduct_name());
-            ps.setInt(2, product.getFk_supplier().getId_supplier());
-            ps.setString(3, product.getProduct_category());
-            ps.setDouble(4, product.getPrice_per_unit());
-            ps.setInt(5, product.getId_product());
+            ps.setString(2, product.getProduct_category());
+            ps.setDouble(3, product.getPrice_per_unit());
+            ps.setInt(4, product.getId_product());
             ps.executeUpdate();
+            
+            if(product.getFk_supplier() != null) {
+                SupplierDao.getInstance().update(conn, product.getFk_supplier());
+            }
         } finally {
             ResourcesManager.closeResources(null, ps);
         }
     }
     
-    public void delete(Connection conn, int productIt) throws SQLException {
+    public void delete(Connection conn, Product product) throws SQLException {
         PreparedStatement ps = null;
         try {
+            OrderDetailsDao.getInstance().delete(conn, product);
+            
             ps = conn.prepareStatement("DELETE FROM product WHERE id_product=?;");
-            ps.setInt(1, productIt);
+            ps.setInt(1, product.getId_product());
             ps.executeUpdate();
         } finally {
             ResourcesManager.closeResources(null, ps);
@@ -74,7 +79,7 @@ public class ProductDao {
             ps.setInt(1, productId);
             rs = ps.executeQuery();
             if(rs.next()) {
-                Supplier supplier = SupplierDao.getInstance().find(conn, rs.getInt("id_supplier"));
+                Supplier supplier = SupplierDao.getInstance().find(conn, rs.getInt("fk_supplier"));
                 product = new Product(productId, rs.getString("product_name"), supplier, rs.getString("product_category"), rs.getDouble("price_per_unit"));
             } else {
                 return product;
@@ -97,7 +102,7 @@ public class ProductDao {
                 return products;
             }
             while(rs.next()) {
-                Supplier supplier = SupplierDao.getInstance().find(conn, rs.getInt("id_supplier"));
+                Supplier supplier = SupplierDao.getInstance().find(conn, rs.getInt("fk_supplier"));
                 product = new Product(rs.getInt("id_product"), rs.getString("product_name"), supplier, rs.getString("product_category"), rs.getDouble("price_per_unit"));
                 products.add(product);
             }

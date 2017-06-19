@@ -19,23 +19,17 @@ public class EmployeeDao {
         return INSTANCE;
     }
     
-    public int insert(Connection conn, Employee employee) throws SQLException {
+    public void insert(Connection conn, Employee employee) throws SQLException {
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        int id = -1;
         try {
             ps = conn.prepareStatement("INSERT INTO employee(last_name, first_name, birth_date) VALUES(?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, employee.getLast_name());
             ps.setString(2, employee.getFirst_name());
             ps.setDate(3, employee.getBirth_date());
             ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            rs.next();
-            id = rs.getInt(1);
         } finally {
             ResourcesManager.closeResources(null, ps);
         }              
-        return id;
     }
     
     public void update(Connection conn, Employee employee) throws SQLException {

@@ -19,10 +19,8 @@ public class CustomerDao {
         return INSTANCE;
     }
     
-    public int insert(Connection conn, Customer customer) throws SQLException {
+    public void insert(Connection conn, Customer customer) throws SQLException {
         PreparedStatement ps = null;
-        ResultSet rs = null;
-        int id = -1;
         try {
             ps = conn.prepareStatement("INSERT INTO customer(customer_name, contact_person, address, city, post_code, country) VALUES(?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, customer.getCustomer_name());
@@ -32,13 +30,9 @@ public class CustomerDao {
             ps.setInt(5, customer.getPost_code());
             ps.setString(6, customer.getCountry());
             ps.executeUpdate();
-            rs = ps.getGeneratedKeys();
-            rs.next();
-            id = rs.getInt(1);
         } finally {
             ResourcesManager.closeResources(null, ps);
         }
-        return id;
     }
     
     public void update(Connection conn, Customer customer) throws SQLException {
