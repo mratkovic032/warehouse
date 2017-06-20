@@ -53,7 +53,7 @@ public class AdvancedService {
             }
             System.out.println(sb);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to find products.");
+            throw new WarehouseException("Failed to find Products.");
         } finally {
             ResourcesManager.closeResources(rs, ps);
             ResourcesManager.closeConnection(conn);
@@ -75,7 +75,7 @@ public class AdvancedService {
             }
             System.out.println(sb);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to find products.");
+            throw new WarehouseException("Failed to find Products.");
         } finally {
             ResourcesManager.closeResources(rs, ps);
             ResourcesManager.closeConnection(conn);

@@ -78,7 +78,7 @@ public class OrderDetailsDao {
     
     public void delete(Connection conn, Product product) throws SQLException {
         PreparedStatement ps = null;
-        try {
+        try {            
             ps = conn.prepareStatement("DELETE FROM order_details WHERE fk_product=?;");
             ps.setInt(1, product.getId_product());
             ps.executeUpdate();
