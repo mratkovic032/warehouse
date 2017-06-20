@@ -45,7 +45,7 @@ public class Warehouse {
 //        addTestEmployees();
 //        addTestCustomers();        
 //        addTestShippers();
-        addTestProducts(); 
+//        addTestProducts(); 
 //        orderService.makeOrder(new Date(117, 6, 20), customerService.findCustomer(2), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(1), 5);        
 //        orderService.makeOrder(new Date(117, 6, 21), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 4);
 //        orderService.makeOrder(new Date(117, 6, 19), customerService.findCustomer(3), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(3), 2);
