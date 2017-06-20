@@ -64,7 +64,7 @@ public class ProductService {
             conn = ResourcesManager.getConnection();
             return SupplierDao.getInstance().find(conn, supplier_name);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to find Product.");
+            throw new WarehouseException("Failed to find Supplier.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }    
@@ -91,7 +91,7 @@ public class ProductService {
             conn = ResourcesManager.getConnection();
             SupplierDao.getInstance().update(conn, s);
         } catch (SQLException ex) {            
-            throw new WarehouseException("Failed to update Product.");
+            throw new WarehouseException("Failed to update Supplier.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -118,7 +118,7 @@ public class ProductService {
             conn = ResourcesManager.getConnection();
             SupplierDao.getInstance().delete(conn, supplierId);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to delete Product.");
+            throw new WarehouseException("Failed to delete Supplier.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
