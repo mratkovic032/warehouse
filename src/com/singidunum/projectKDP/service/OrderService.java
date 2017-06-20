@@ -1,6 +1,5 @@
 package com.singidunum.projectKDP.service;
 
-import com.singidunum.projectKDP.dao.OrderDao;
 import com.singidunum.projectKDP.dao.OrderDetailsDao;
 import com.singidunum.projectKDP.dao.ResourcesManager;
 import com.singidunum.projectKDP.data.Customer;

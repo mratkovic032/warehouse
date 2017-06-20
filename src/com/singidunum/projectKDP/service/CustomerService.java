@@ -51,7 +51,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             ShipperDao.getInstance().insert(conn, s);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to add new Employee.");
+            throw new WarehouseException("Failed to add new Shipper.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -87,7 +87,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             return ShipperDao.getInstance().find(conn, shipperId);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to find Employee.");
+            throw new WarehouseException("Failed to find Shipper.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -111,7 +111,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             EmployeeDao.getInstance().update(conn, e);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to update Product.");
+            throw new WarehouseException("Failed to update Employee.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -123,7 +123,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             ShipperDao.getInstance().update(conn, s);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to update Product.");
+            throw new WarehouseException("Failed to update Shipper.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -159,7 +159,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             ShipperDao.getInstance().delete(conn, shipperId);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to delete Employee.");
+            throw new WarehouseException("Failed to delete Shipper.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }

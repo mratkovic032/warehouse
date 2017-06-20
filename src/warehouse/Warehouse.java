@@ -1,5 +1,6 @@
 package warehouse;
 
+import com.singidunum.projectKDP.dao.CustomerDao;
 import com.singidunum.projectKDP.exception.WarehouseException;
 import com.singidunum.projectKDP.data.*;
 import com.singidunum.projectKDP.service.*;
@@ -53,6 +54,6 @@ public class Warehouse {
 //        orderService.makeOrder(new Date(117, 6, 5), customerService.findCustomer(1), customerService.findEmployee(2), customerService.findShipper(2), productService.findProduct(2), 7);
 //        orderService.makeOrder(new Date(117, 6, 14), customerService.findCustomer(5), customerService.findEmployee(1), customerService.findShipper(1), productService.findProduct(3), 8);
                 
-        advancedService.eleventh();
+        //advancedService.eleventh();                
     }  
 }
