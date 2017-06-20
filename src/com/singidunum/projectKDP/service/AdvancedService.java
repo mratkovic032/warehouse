@@ -27,7 +27,7 @@ public class AdvancedService {
             ps = conn.prepareStatement("SELECT customer_name, id_order FROM customer INNER JOIN orders ON customer.id_customer=orders.fk_customer ORDER BY customer_name ASC;");
             rs = ps.executeQuery();            
             while(rs.next()) {
-                sb.append(rs.getString("customer_name")).append("\t-\t").append(rs.getInt("id_order")).append("\n");                         
+                sb.append(rs.getString("customer_name")).append(" - ").append(rs.getInt("id_order")).append("\n");                         
             }      
             System.out.println(sb);
         } catch (SQLException ex) {
@@ -67,7 +67,7 @@ public class AdvancedService {
         StringBuilder sb = new StringBuilder();
         try {
             conn = ResourcesManager.getConnection();
-            ps = conn.prepareStatement("SELECT product_name, shipper_name, id_shipper FROM product INNER JOIN (order_details INNER JOIN (orders INNER JOIN shipper ON orders.fk_shipper=shipper.id_shipper) ON order_details.fk_order=orders.id_order) ON product.id_product=order_details.fk_product WHERE id_shipper=?;");
+            ps = conn.prepareStatement("SELECT DISTINCT product_name, shipper_name, id_shipper FROM product INNER JOIN (order_details INNER JOIN (orders INNER JOIN shipper ON orders.fk_shipper=shipper.id_shipper) ON order_details.fk_order=orders.id_order) ON product.id_product=order_details.fk_product WHERE id_shipper=?;");
             ps.setInt(1, shipperId);
             rs = ps.executeQuery();
             while(rs.next()) {                
@@ -228,7 +228,7 @@ public class AdvancedService {
             ps = conn.prepareStatement("SELECT customer_name, SUM(quantity*price_per_unit) AS 'money_spent' FROM customer INNER JOIN (orders INNER JOIN (order_details INNER JOIN product ON order_details.fk_product=product.id_product) ON orders.id_order=order_details.fk_order) ON customer.id_customer=orders.fk_customer GROUP BY customer_name ORDER BY money_spent DESC LIMIT 4;");
             rs = ps.executeQuery();            
             while(rs.next()) {                                 
-                sb.append(rs.getString("customer_name")).append("\t").append(rs.getInt("money_spent")).append("\n").append(" dinara.");
+                sb.append(rs.getString("customer_name")).append("\t").append(rs.getInt("money_spent")).append(" dinara.").append("\n");
             }                        
             System.out.println(sb);
         } catch (SQLException ex) {
@@ -245,13 +245,12 @@ public class AdvancedService {
         PreparedStatement ps = null;
         ResultSet rs = null;
         StringBuilder sb = new StringBuilder();
-        sb.append("Supplier cija je se roba prodala u najvecim kolicinama je:\n");
         try {
             conn = ResourcesManager.getConnection();
             ps = conn.prepareStatement("SELECT supplier_name, SUM(quantity*price_per_unit) AS 'money_spent' FROM supplier INNER JOIN (product INNER JOIN order_details ON product.id_product=order_details.fk_product) ON supplier.id_supplier=product.fk_supplier GROUP BY supplier_name ORDER BY money_spent DESC LIMIT 1;");
             rs = ps.executeQuery();            
             while(rs.next()) {                                 
-                sb.append(rs.getString("supplier_name")).append("\t").append(rs.getInt("money_spent")).append(" dinara.").append("\n");
+                sb.append("Supplier: ").append(rs.getString("supplier_name")).append(" ima najvecu kolicinu prodate robe u vrednosti od ").append(rs.getInt("money_spent")).append(" dinara.");
             }                        
             System.out.println(sb);
         } catch (SQLException ex) {
