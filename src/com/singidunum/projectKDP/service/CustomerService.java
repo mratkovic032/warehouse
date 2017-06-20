@@ -27,7 +27,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             CustomerDao.getInstance().insert(conn, c);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to add new Customer.");
+            throw new WarehouseException("Failed to add Customer.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -39,7 +39,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             EmployeeDao.getInstance().insert(conn, e);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to add new Employee.");
+            throw new WarehouseException("Failed to add Employee.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
@@ -51,7 +51,7 @@ public class CustomerService {
             conn = ResourcesManager.getConnection();
             ShipperDao.getInstance().insert(conn, s);
         } catch (SQLException ex) {
-            throw new WarehouseException("Failed to add new Shipper.");
+            throw new WarehouseException("Failed to add Shipper.");
         } finally {
             ResourcesManager.closeConnection(conn);
         }
